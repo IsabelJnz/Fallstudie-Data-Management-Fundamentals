@@ -7,6 +7,7 @@ Erstellen Sie ein DWH aus internen und externen Daten
 
 • Komponenten
 
+
 RDBMS (PostgreSQL) zum Aufbau des DWH
 
 • Python, Javascript, SQL für Datenerzeugung, Datentransfer, Datentransformation
