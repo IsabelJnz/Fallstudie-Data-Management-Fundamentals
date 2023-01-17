@@ -1,0 +1,55 @@
+@startuml
+!theme plain
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "Speed" as f01  #line:darkgreen;back:lightgreen{
+  *f1_id: number <<generated>>
+  --
+  *d1_id: number <<FK>>
+  *d2_id: number <<FK>>
+  *d3_id: number <<FK>>
+  *Measurement_generated : timestamp
+  *Measurement_arrived : timestamp
+  *Measurement_speed : integer
+}
+
+entity "Customer" as d01 #line:darkgrey;back:lightgrey{
+  *d1_id: integer <<generated>>
+  --
+  *customer_id: varchar(50) <<unique>>
+  *customer_surname : varchar(200)
+  *customer_name : varchar(200)
+  salutaion : varchar(20)
+  *sex : varchar(20)
+  *birthdate : date
+  *adress : integer
+}
+
+entity "Vehicle" as d02 #line:darkgrey;back:lightgrey{
+  *d2_id: integer <<generated>>
+  --
+  *vin : char(17) <<unique>>
+  *model : varchar(200)
+  *construction_year : integer
+  *producer_code : char(3)
+  *producer_name : varchar(200)
+  *license_plate : varchar(20)
+}
+
+entity "Location" as d03 #line:darkgrey;back:lightgrey{
+  *d3_id : integer <<generated>>
+  --
+  *location_id : integer <<unique>>
+  *location_name : varchar(200)
+  *country_id : integer
+  *country_name : varchar(200)
+}
+
+d01 ||..o{ f01
+d02 ||..o{ f01
+d03 ||..o{ f01
+@enduml
