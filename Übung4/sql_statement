@@ -1,0 +1,22 @@
+create table mart.f_messung as 
+with w_in as (
+	select k.d_kunde_key, 
+	f.d_fahrzeug_key, 
+	cast(m.payload ->> 'zeit' as timestamp) as messung_erzeugt, 
+	cast(m.payload ->> 'geschwindigkeit' as float) as geschwindigkeit, 
+	cast(m.payload ->> 'ort' as integer) as d_ort_messung_key, 
+	cast(m.erstellt_am as timestamp) as messung_eingetroffen
+	from mart.d_fahrzeug f
+	join staging.messung m on f.fin = m.payload ->> 'fin'
+	join mart.d_ort o on cast (o.ort_id as varchar) = m.payload ->> 'ort'
+	join staging.fahrzeug s on s.fin = m.payload ->> 'fin'
+	join mart.d_kunde k on s.kunde_account = k.kunde_account
+)
+select ROW_NUMBER () OVER () as f_messung_key
+	, c.d_kunde_key
+	, c.d_fahrzeug_key
+	, c.messung_erzeugt
+	, c.geschwindigkeit
+	, c.d_ort_messung_key
+	, c.messung_eingetroffen
+from w_in c;
